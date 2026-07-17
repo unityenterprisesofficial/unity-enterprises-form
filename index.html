@@ -1,0 +1,42 @@
+const SHEET_NAME = "Sheet1";
+
+function doPost(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+
+  const data = JSON.parse(e.postData.contents);
+
+  sheet.appendRow([
+    new Date(),
+    data.fullName,
+    data.mobile,
+    data.email,
+    data.instagram,
+    data.telegram,
+    data.dob,
+    data.address,
+    data.education,
+    data.technical,
+    data.experience,
+    data.jobChoice,
+    data.timeChoice,
+    data.fatherName,
+    data.motherName,
+    data.gender,
+    data.maritalStatus,
+    data.aadhar,
+    data.pan,
+    data.bankName,
+    data.accountNumber,
+    data.ifsc,
+    data.emergencyContact,
+    data.reference,
+    data.photoLink,
+    data.resumeLink
+  ]);
+
+  return ContentService
+    .createTextOutput(JSON.stringify({
+      status: "success"
+    }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
