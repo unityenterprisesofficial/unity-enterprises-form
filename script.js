@@ -1,118 +1,58 @@
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Segoe UI',sans-serif;
-}
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxcCQtGg0zpJl1qTG2-7RxpznT2RJtdCFrJfW1yV2p8ADYc2H3DQw3xMnCIYlh9-sFw/exec";
 
-body{
-background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-padding:30px;
-}
+document.getElementById("jobForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
 
-.container{
-max-width:800px;
-margin:auto;
-background:#fff;
-border-radius:15px;
-box-shadow:0 10px 25px rgba(0,0,0,.25);
-padding:30px;
-}
+    const data = {
+        fullName: document.getElementById("fullName").value,
+        fatherName: document.getElementById("fatherName").value,
+        mobile: document.getElementById("mobile").value,
+        email: document.getElementById("email").value,
+        instagram: document.getElementById("instagram").value,
+        telegram: document.getElementById("telegram").value,
+        dob: document.getElementById("dob").value,
+        gender: document.getElementById("gender").value,
+        maritalStatus: document.getElementById("maritalStatus").value,
+        address: document.getElementById("address").value,
+        education: document.getElementById("education").value,
+        technical: document.getElementById("technical").value,
+        experience: document.getElementById("experience").value,
+        jobChoice: document.getElementById("jobChoice").value,
+        timeChoice: document.getElementById("timeChoice").value,
 
-.header{
-text-align:center;
-background:#0056b3;
-color:#fff;
-padding:20px;
-border-radius:10px;
-margin-bottom:25px;
-}
+        motherName: "",
+        aadhar: "",
+        pan: "",
+        bankName: "",
+        accountNumber: "",
+        ifsc: "",
+        emergencyContact: "",
+        reference: "",
+        photoLink: "",
+        resumeLink: ""
+    };
 
-.header h1{
-font-size:32px;
-margin-bottom:8px;
-}
+    try {
 
-.header p{
-font-size:16px;
-}
+        const response = await fetch(SCRIPT_URL,{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(data)
+        });
 
-h2{
-margin-top:25px;
-margin-bottom:15px;
-color:#0056b3;
-border-left:5px solid #0056b3;
-padding-left:10px;
-}
+        const result = await response.json();
 
-label{
-display:block;
-margin-top:15px;
-font-weight:bold;
-color:#333;
-}
+        if(result.status==="success"){
+            alert("Application Submitted Successfully ✅");
+            document.getElementById("jobForm").reset();
+        }else{
+            alert("Submission Failed");
+        }
 
-input,
-select,
-textarea{
-width:100%;
-padding:12px;
-margin-top:6px;
-border:1px solid #ccc;
-border-radius:8px;
-font-size:15px;
-transition:.3s;
-}
+    }catch(error){
+        alert("Error : "+error);
+    }
 
-input:focus,
-select:focus,
-textarea:focus{
-border-color:#0056b3;
-outline:none;
-box-shadow:0 0 8px rgba(0,86,179,.3);
-}
-
-textarea{
-height:90px;
-resize:none;
-}
-
-button{
-width:100%;
-padding:15px;
-margin-top:30px;
-border:none;
-background:#28a745;
-color:#fff;
-font-size:18px;
-font-weight:bold;
-border-radius:8px;
-cursor:pointer;
-transition:.3s;
-}
-
-button:hover{
-background:#218838;
-transform:scale(1.02);
-}
-
-input[type=file]{
-padding:8px;
-background:#f7f7f7;
-}
-
-@media(max-width:768px){
-
-.container{
-padding:20px;
-}
-
-.header h1{
-font-size:26px;
-}
-
-button{
-font-size:16px;
-}
-
-}
+});
