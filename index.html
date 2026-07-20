@@ -1,42 +1,107 @@
-const SHEET_NAME = "Sheet1";
 
-function doPost(e) {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unity Enterprises Application Form</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-  const data = JSON.parse(e.postData.contents);
+<div class="container">
 
-  sheet.appendRow([
-    new Date(),
-    data.fullName,
-    data.mobile,
-    data.email,
-    data.instagram,
-    data.telegram,
-    data.dob,
-    data.address,
-    data.education,
-    data.technical,
-    data.experience,
-    data.jobChoice,
-    data.timeChoice,
-    data.fatherName,
-    data.motherName,
-    data.gender,
-    data.maritalStatus,
-    data.aadhar,
-    data.pan,
-    data.bankName,
-    data.accountNumber,
-    data.ifsc,
-    data.emergencyContact,
-    data.reference,
-    data.photoLink,
-    data.resumeLink
-  ]);
+<div class="header">
+<h1>UNITY ENTERPRISES</h1>
+<p>Online Job Application Form</p>
+</div>
 
-  return ContentService
-    .createTextOutput(JSON.stringify({
-      status: "success"
-    }))
-    .setMimeType(ContentService.MimeType.JSON);
-}
+<form id="jobForm">
+
+<h2>Personal Details</h2>
+
+<label>Full Name *</label>
+<input type="text" id="fullName" required>
+
+<label>Father/Husband Name *</label>
+<input type="text" id="fatherName" required>
+
+<label>Mobile Number *</label>
+<input type="tel" id="mobile" required>
+
+<label>Email ID *</label>
+<input type="email" id="email" required>
+
+<label>Instagram ID</label>
+<input type="text" id="instagram">
+
+<label>Telegram ID</label>
+<input type="text" id="telegram">
+
+<label>Date of Birth</label>
+<input type="date" id="dob">
+
+<label>Gender</label>
+<select id="gender">
+<option>Male</option>
+<option>Female</option>
+<option>Other</option>
+</select>
+
+<label>Marital Status</label>
+<select id="maritalStatus">
+<option>Single</option>
+<option>Married</option>
+</select>
+
+<label>Address</label>
+<textarea id="address"></textarea>
+
+<h2>Education</h2>
+
+<label>Educational Qualification</label>
+<input type="text" id="education">
+
+<label>Technical Qualification</label>
+<input type="text" id="technical">
+
+<label>Work Experience</label>
+<textarea id="experience"></textarea>
+
+<h2>Job Preference</h2>
+
+<label>Choice of Work</label>
+<select id="jobChoice">
+<option>Back Office</option>
+<option>Digital Marketing</option>
+<option>Field Executive</option>
+<option>Tele Calling</option>
+<option>Plan Presenter</option>
+</select>
+
+<label>Choice of Time</label>
+<select id="timeChoice">
+<option>Full Time</option>
+<option>Part Time</option>
+<option>Weekend</option>
+<option>Freelancer</option>
+</select>
+
+<h2>Documents</h2>
+
+<label>Passport Size Photo</label>
+<input type="file" id="photo">
+
+<label>Resume</label>
+<input type="file" id="resume">
+
+<button type="submit">Submit Application</button>
+
+</form>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
