@@ -1,58 +1,25 @@
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxcCQtGg0zpJl1qTG2-7RxpznT2RJtdCFrJfW1yV2p8ADYc2H3DQw3xMnCIYlh9-sFw/exec";
+const scriptURL = 'https://script.google.com/macros/s/AKfycbxTLjlomN6rCzn1cJNieIVU5DUhWm0JXeo1KBSxoW2uL6vYfOz_xnMroLlxpwmkqK5N/exec';
 
-document.getElementById("jobForm").addEventListener("submit", async function(e) {
-    e.preventDefault();
+const form = document.getElementById('jobForm') || document.querySelector('form');
 
-    const data = {
-        fullName: document.getElementById("fullName").value,
-        fatherName: document.getElementById("fatherName").value,
-        mobile: document.getElementById("mobile").value,
-        email: document.getElementById("email").value,
-        instagram: document.getElementById("instagram").value,
-        telegram: document.getElementById("telegram").value,
-        dob: document.getElementById("dob").value,
-        gender: document.getElementById("gender").value,
-        maritalStatus: document.getElementById("maritalStatus").value,
-        address: document.getElementById("address").value,
-        education: document.getElementById("education").value,
-        technical: document.getElementById("technical").value,
-        experience: document.getElementById("experience").value,
-        jobChoice: document.getElementById("jobChoice").value,
-        timeChoice: document.getElementById("timeChoice").value,
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  
+  const submitButton = form.querySelector('button[type="submit"]');
+  if(submitButton) submitButton.disabled = true;
 
-        motherName: "",
-        aadhar: "",
-        pan: "",
-        bankName: "",
-        accountNumber: "",
-        ifsc: "",
-        emergencyContact: "",
-        reference: "",
-        photoLink: "",
-        resumeLink: ""
-    };
-
-    try {
-
-        const response = await fetch(SCRIPT_URL,{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify(data)
-        });
-
-        const result = await response.json();
-
-        if(result.status==="success"){
-            alert("Application Submitted Successfully ✅");
-            document.getElementById("jobForm").reset();
-        }else{
-            alert("Submission Failed");
-        }
-
-    }catch(error){
-        alert("Error : "+error);
-    }
-
+  fetch(scriptURL, { 
+    method: 'POST', 
+    body: new FormData(form)
+  })
+  .then(response => {
+    alert("Application Submitted Successfully!");
+    form.reset();
+    if(submitButton) submitButton.disabled = false;
+  })
+  .catch(error => {
+    console.error('Error!', error.message);
+    alert("Submission failed. Please try again.");
+    if(submitButton) submitButton.disabled = false;
+  });
 });
