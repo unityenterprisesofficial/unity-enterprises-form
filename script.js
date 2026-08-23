@@ -1,36 +1,34 @@
-const SHEET_NAME = "Sheet1";
+const scriptURL = 'https://script.google.com/macros/s/AKfycbxTLjlomN6rCzn1cJNieIVU5DUhWm0JXeo1KBSxoW2uL6vYfOz_xnMroLlxpwmkqK5N/exec';
 
-function doPost(e) {
-  try {
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
-    const p = e.parameter;
+const form = document.querySelector('form');
 
-    sheet.appendRow([
-      new Date(),
-      p.fullName || "",
-      p.fatherName || "",
-      p.mobile || "",
-      p.email || "",
-      p.instagram || "",
-      p.telegram || "",
-      p.dob || "",
-      p.gender || "",
-      p.maritalStatus || "",
-      p.address || "",
-      p.education || "",
-      p.technical || "",
-      p.experience || "",
-      p.jobChoice || "",
-      p.timeChoice || ""
-    ]);
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  
+  const submitButton = form.querySelector('button[type="submit"]');
+  if (submitButton) submitButton.disabled = true;
 
-    return ContentService
-      .createTextOutput(JSON.stringify({ result: "success" }))
-      .setMimeType(ContentService.MimeType.JSON);
+  const formData = new FormData();
+  
+  Array.from(form.elements).forEach(el => {
+    if (el.name && el.type !== 'file') {
+      formData.append(el.name, el.value);
+    }
+  });
 
-  } catch (err) {
-    return ContentService
-      .createTextOutput(JSON.stringify({ result: "error", error: err.toString() }))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
-}
+  fetch(scriptURL, { 
+    method: 'POST',
+    mode: 'no-cors',
+    body: formData
+  })
+  .then(() => {
+    alert("Application Submitted Successfully!");
+    form.reset();
+    if (submitButton) submitButton.disabled = false;
+  })
+  .catch(error => {
+    console.error('Error!', error.message);
+    alert("Submission failed. Please try again.");
+    if (submitButton) submitButton.disabled = false;
+  });
+});
